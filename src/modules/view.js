@@ -88,4 +88,23 @@ const view = (() => {
 
 })
 
-export default view;
+const createForecastBox = (hour, img, temp) => {
+    const box = elementMaker('div');
+    box.classList.add('hour-forecast-box');
+    const displayHour = elementMaker('p', txt=`${hour}`);
+    const displayTemp = elementMaker('p', txt=`${temp}`);
+    const displayIcon = elementMaker('img');
+    displayIcon.setAttribute('src', img)
+    const tempBox = elementMaker('div')
+    tempBox.classList.add('forecast-temp-box');
+    appendChildren(tempBox, [displayIcon, displayTemp]);
+    appendChildren(box, [displayHour, tempBox]);
+
+    return box;
+
+}
+
+export {
+    view,
+    createForecastBox
+};
