@@ -1,16 +1,20 @@
 //this is where called values are stored and api calls are handled
 //make sure to switch when the system buttons are pressed
 //will likely need the date functions to get the high low of that time
-import {isThisHour, format, fromUnixTime} from 'date-fns';
-import {api} from "./api";
+import {format, fromUnixTime} from 'date-fns';
+import {getApiValues} from "./api";
 import {view, createForecastBox} from "./view";
-import { info } from 'sass';
 
 let city = 'toronto';
-let api = api(city);
+let api = getApiValues(city);
 let system = 'celsius';
 
-const dom = (() => {
+const updateApiValues = (city) => {
+    let api = getApiValues(city);
+    return api;
+}
+
+const dom = ((api, city, system) => {
 
     const setValues = ((api) => {
         let cityName = api.location.name;
@@ -90,30 +94,33 @@ const dom = (() => {
     let infoView = createView.infoView;
 
     //top view stuff
-    let input = topView.childNode[0].childNode[0];
-    input.addEventListener('change', () => {
-        city = input.value; //add validation later
-    })
+    const updateTopView = (topView, api, values, city, system) => {
+        let input = topView.childNode[0].childNode[0];
+        input.addEventListener('change', () => {
+            city = input.value; //add validation later
+        });
+        
+        let inputSearch = topView.childNode[0].childNode[1];
+        inputSearch.addEventListener('click', () => {
+            api = updateApiValues(city);
+            values = setValues(api);
+        });
     
-    let inputSearch = topView.childNode[0].childNode[1];
-    inputSearch.addEventListener('click', () => {
-        api = api(city);
-        values = setValues(api);
-    })
-
-    let celsiusClick = topView.childNode[1].childNode[0];
-    celsiusClick.addEventListener('click', () => {
-        system = 'celsius'
-        api = api(city);
-        values = setValues(api);
-    })
-
-    let fahrenheitClick = topView.childNode[1].childNode[1];
-    fahrenheitClick.addEventListener('click', () => {
-        system = 'fahrenheit';
-        api = api(city);
-        values = setValues(api);
-    })
+        let celsiusClick = topView.childNode[1].childNode[0];
+        celsiusClick.addEventListener('click', () => {
+            system = 'celsius'
+            api = updateApiValues(city);
+            values = setValues(api);
+        });
+    
+        let fahrenheitClick = topView.childNode[1].childNode[1];
+        fahrenheitClick.addEventListener('click', () => {
+            system = 'fahrenheit';
+            api = updateApiValues(city);
+            values = setValues(api);
+        });
+    
+    };
 
     //mid view stuff
     let location = midView.childNode[0];
@@ -209,5 +216,8 @@ const dom = (() => {
     }
     windDirTxt.textContent = `${values.windDir}`;
 })
+   
 
-
+export {
+    dom
+}

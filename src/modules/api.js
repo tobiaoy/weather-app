@@ -1,6 +1,6 @@
 //make api calls and get data
 
-const api = (() => {
+const getApiValues = ((city) => {
 
     const apiKey = 'ba0f81137d714181bdf171340241104';
 
@@ -19,12 +19,13 @@ const api = (() => {
     const current = getForecastData().current; //current object
     const forecast = getForecastData().forecast; //forecast object
 
+    // consider a promise all here
     return {
         location,
         current,
         forecast
     }
 
-})()
+})
 
-export default api;
+export default getApiValues;
