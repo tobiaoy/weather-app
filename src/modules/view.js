@@ -5,16 +5,6 @@ const appendChildren = (parent, ...children) => {
     })
 }
 
-const elementMaker = (el, id, type, txt, ph) => {
-    const el = document.createElement(el);
-    el.setAttribute('id', id);
-    if (type) { el.type = type; };
-    if (txt) { el.textContent = txt};
-    if (ph) { el.setAttribute(placeholder, ph) };
-    
-    return el;
-}
-
 const view = (() => {
     //top view -> input search bar | search btn |  celsius btn | fahrenheit btn
     const topView = document.createElement('div');
