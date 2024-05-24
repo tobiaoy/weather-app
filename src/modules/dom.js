@@ -2,6 +2,7 @@
 import {format, fromUnixTime} from 'date-fns';
 import {createForecastBox} from "./view";
 import {getApiValues} from "./api"
+import { clearMain } from '..';
 
 const dom = ((city, system, view) => {
     let searchCity = city;
@@ -155,6 +156,8 @@ const dom = ((city, system, view) => {
     }
 
     return {
+        searchCity,
+        searchSystem,
         updateTopView,
         updateMidView,
         updateInfoView
